@@ -21,10 +21,5 @@
         "terminal.integrated.shellIntegration.enabled": true
       }
     }
-  },
-  "remoteEnv": {
-    "DIRENV_WARN_TIMEOUT": "1m",
-    // Silence verbose direnv export output (e.g., "+VAR1 +VAR2 ...")
-    "DIRENV_LOG_FORMAT": ""
   }
 }
