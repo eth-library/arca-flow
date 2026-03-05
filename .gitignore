@@ -23,6 +23,9 @@ cli/bin/
 !.vscode/settings.json
 .idea/
 
+# Python bytecode
+__pycache__/
+
 # Python build directories
 /da_pipeline.egg-info/
 
