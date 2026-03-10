@@ -1,35 +1,33 @@
-# Base image - using Python 3.12 as specified in pyproject.toml (requires-python >= 3.12)
-FROM python:3.12
+# Stage 1: Build dependencies and install project
+FROM python:3.12-slim AS builder
 
-# Update system packages
-RUN apt-get update && \
-    apt-get upgrade -y && \
-    apt-get install -y && \
-    apt-get clean && \
-    rm -rf /var/lib/apt/lists/*
+COPY --from=ghcr.io/astral-sh/uv:latest /uv /uvx /bin/
 
-# Copy only the files not excluded by .dockerignore into the root directory of the container
-COPY . /
+WORKDIR /app
 
-# Configure Python to run in unbuffered mode
-# This makes sure that logs show up immediately instead of being buffered
+# Copy dependency files first for layer caching
+COPY pyproject.toml uv.lock ./
+COPY cli/pyproject.toml cli/pyproject.toml
+
+# Install dependencies only (cached unless pyproject.toml or uv.lock change)
+RUN uv sync --frozen --extra production --no-dev --no-install-project --no-editable
+
+# Copy application source
+COPY da_pipeline/ da_pipeline/
+
+# Install the project itself
+RUN uv sync --frozen --extra production --no-dev --no-editable
+
+# Stage 2: Minimal runtime image
+FROM python:3.12-slim
+
+WORKDIR /app
+
+# Copy the virtual environment with all installed packages
+COPY --from=builder /app/.venv /app/.venv
+
+# Add venv to PATH so dagster CLI is available (required by Helm chart)
+ENV PATH="/app/.venv/bin:$PATH"
+
+# Ensure Python output is sent straight to the container logs
 ENV PYTHONUNBUFFERED=1
-
-# Install uv package manager
-RUN pip install uv
-
-# Install the project with production dependencies
-# This will install:
-# - Core dependencies
-# - Production dependencies
-# as specified in pyproject.toml
-# Using --system to install to system Python (not venv) so dagster is in PATH
-RUN uv pip install --system .[production]
-
-# Set the working directory to the main package directory
-# This aligns with the module_name in pyproject.toml [tool.dagster] section
-WORKDIR /da_pipeline/
-
-# Expose port 80 for the Dagster webserver
-# This allows external access to the Dagster UI
-EXPOSE 80
