@@ -26,9 +26,6 @@ WORKDIR /app
 # Copy the virtual environment with all installed packages
 COPY --from=builder /app/.venv /app/.venv
 
-# Copy Dagster workspace configuration
-COPY workspace.yaml ./
-
 # Add venv to PATH so dagster CLI is available (required by Helm chart)
 ENV PATH="/app/.venv/bin:$PATH"
 
