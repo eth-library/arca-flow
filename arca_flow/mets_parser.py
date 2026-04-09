@@ -177,6 +177,8 @@ def _parse_dc_metadata(dmd_sec: Element) -> DublinCore:
     return DublinCore(
         title=collect_field("title"),
         creator=collect_field("creator"),
+        type=collect_field("type"),
+        identifier=collect_field("identifier"),
         rights=collect_field("rights"),
     )
 
@@ -350,8 +352,9 @@ def _build_ie_model(
 
     dc_model = DublinCore(
         title=ie_dmd_data.title or ["Untitled"],
-        identifier=ie_dmd_data.identifier or [ie_id],
         creator=ie_dmd_data.creator,
+        type=ie_dmd_data.type,
+        identifier=ie_dmd_data.identifier or [ie_id],
         rights=ie_dmd_data.rights,
     )
 
