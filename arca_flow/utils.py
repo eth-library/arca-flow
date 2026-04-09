@@ -1,8 +1,8 @@
-"""Utility functions for the DA Pipeline."""
+"""Utility functions for Arca Flow."""
 
 from dagster import MetadataValue
 
-from da_pipeline.pydantic_models import FileModel, FixityModel, IEModel
+from arca_flow.pydantic_models import FileModel, FixityModel, IEModel
 
 
 def collect_dc_metadata(ie_list: list[IEModel]) -> dict:

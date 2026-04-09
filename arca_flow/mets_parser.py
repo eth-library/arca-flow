@@ -14,7 +14,7 @@ from xml.etree.ElementTree import Element
 
 from pydantic import ValidationError
 
-from da_pipeline.pydantic_models import (
+from arca_flow.pydantic_models import (
     DublinCore,
     FileModel,
     FixityModel,

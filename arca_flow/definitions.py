@@ -1,7 +1,7 @@
 from dagster import Definitions, EnvVar, load_assets_from_modules
 
-from da_pipeline import assets
-from da_pipeline.sensors import (
+from arca_flow import assets
+from arca_flow.sensors import (
     TestDataPathResource,
     _default_test_data_path,
     ingest_sip_job,
