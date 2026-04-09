@@ -16,7 +16,7 @@ app = typer.Typer(no_args_is_help=True)
 # Deployment constants
 NAMESPACE = "dagster"
 RELEASE = "dagster"
-IMAGE = "da-pipeline:local"
+IMAGE = "arca-flow:local"
 HELM_CHART = "dagster/dagster"
 HELM_VERSION = "1.10.14"
 PG_SECRET_NAME = "dagster-postgresql"
@@ -159,14 +159,14 @@ def up() -> None:
     console.print(f"  {OK} PVC applied")
 
     # Create test data ConfigMap if test data exists
-    if Path("da_pipeline_tests/test_data").is_dir():
+    if Path("arca_flow_tests/test_data").is_dir():
         _, cm_yaml = run_capture(
             [
                 "kubectl",
                 "create",
                 "configmap",
                 "test-data-xml",
-                "--from-file=da_pipeline_tests/test_data/",
+                "--from-file=arca_flow_tests/test_data/",
                 "-n",
                 NAMESPACE,
                 "--dry-run=client",

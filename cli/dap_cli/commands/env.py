@@ -229,7 +229,7 @@ def clean(
         "*.egg-info",
     ]
     removed = 0
-    for root_dir in [Path("."), Path("da_pipeline"), Path("da_pipeline_tests")]:
+    for root_dir in [Path("."), Path("arca_flow"), Path("arca_flow_tests")]:
         if not root_dir.exists():
             continue
         for path in root_dir.rglob("*"):
