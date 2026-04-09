@@ -8,7 +8,7 @@ resolution-markers = [
 
 [manifest]
 members = [
-    "da-pipeline",
+    "arca-flow",
     "dap-cli",
 ]
 
@@ -65,6 +65,46 @@ sdist = { url = "https://files.pythonhosted.org/packages/96/f0/5eb65b2bb0d09ac67
 wheels = [
     { url = "https://files.pythonhosted.org/packages/38/0e/27be9fdef66e72d64c0cdc3cc2823101b80585f8119b5c112c2e8f5f7dab/anyio-4.12.1-py3-none-any.whl", hash = "sha256:d405828884fc140aa80a3c667b8beed277f1dfedec42ba031bd6ac3db606ab6c", size = 113592, upload-time = "2026-01-06T11:45:19.497Z" },
 ]
+
+[[package]]
+name = "arca-flow"
+version = "0.1.0"
+source = { editable = "." }
+dependencies = [
+    { name = "dagster" },
+    { name = "dagster-dg-cli" },
+    { name = "dagster-webserver" },
+    { name = "data-archive-models" },
+    { name = "pydantic" },
+]
+
+[package.optional-dependencies]
+dev = [
+    { name = "mypy" },
+    { name = "pre-commit" },
+    { name = "pytest" },
+    { name = "ruff" },
+]
+production = [
+    { name = "dagster-k8s" },
+    { name = "dagster-postgres" },
+]
+
+[package.metadata]
+requires-dist = [
+    { name = "dagster", specifier = ">=1.10.15,<2.0.0" },
+    { name = "dagster-dg-cli", specifier = ">=0.1.0" },
+    { name = "dagster-k8s", marker = "extra == 'production'", specifier = ">=0.26.14" },
+    { name = "dagster-postgres", marker = "extra == 'production'", specifier = ">=0.26.14" },
+    { name = "dagster-webserver", specifier = ">=1.10.15,<2.0.0" },
+    { name = "data-archive-models", specifier = ">=0.1.0a2.dev0", index = "https://test.pypi.org/simple" },
+    { name = "mypy", marker = "extra == 'dev'", specifier = ">=1.15.0" },
+    { name = "pre-commit", marker = "extra == 'dev'", specifier = ">=4.0.0" },
+    { name = "pydantic", specifier = ">=2.11.4,<3.0.0" },
+    { name = "pytest", marker = "extra == 'dev'", specifier = ">=8.3.5" },
+    { name = "ruff", marker = "extra == 'dev'", specifier = ">=0.9.0" },
+]
+provides-extras = ["dev", "production"]
 
 [[package]]
 name = "attrs"
@@ -313,46 +353,6 @@ wheels = [
     { url = "https://files.pythonhosted.org/packages/4b/fa/f0ab06238e899cc3fb332623f337a7364f36f4bb3f2534c2bb95a35b132c/cryptography-46.0.7-cp38-abi3-win32.whl", hash = "sha256:f247c8c1a1fb45e12586afbb436ef21ff1e80670b2861a90353d9b025583d246", size = 3013001, upload-time = "2026-04-08T01:57:34.933Z" },
     { url = "https://files.pythonhosted.org/packages/d2/f1/00ce3bde3ca542d1acd8f8cfa38e446840945aa6363f9b74746394b14127/cryptography-46.0.7-cp38-abi3-win_amd64.whl", hash = "sha256:506c4ff91eff4f82bdac7633318a526b1d1309fc07ca76a3ad182cb5b686d6d3", size = 3472985, upload-time = "2026-04-08T01:57:36.714Z" },
 ]
-
-[[package]]
-name = "da-pipeline"
-version = "0.1.0"
-source = { editable = "." }
-dependencies = [
-    { name = "dagster" },
-    { name = "dagster-dg-cli" },
-    { name = "dagster-webserver" },
-    { name = "data-archive-models" },
-    { name = "pydantic" },
-]
-
-[package.optional-dependencies]
-dev = [
-    { name = "mypy" },
-    { name = "pre-commit" },
-    { name = "pytest" },
-    { name = "ruff" },
-]
-production = [
-    { name = "dagster-k8s" },
-    { name = "dagster-postgres" },
-]
-
-[package.metadata]
-requires-dist = [
-    { name = "dagster", specifier = ">=1.10.15,<2.0.0" },
-    { name = "dagster-dg-cli", specifier = ">=0.1.0" },
-    { name = "dagster-k8s", marker = "extra == 'production'", specifier = ">=0.26.14" },
-    { name = "dagster-postgres", marker = "extra == 'production'", specifier = ">=0.26.14" },
-    { name = "dagster-webserver", specifier = ">=1.10.15,<2.0.0" },
-    { name = "data-archive-models", specifier = ">=0.1.0a2.dev0", index = "https://test.pypi.org/simple" },
-    { name = "mypy", marker = "extra == 'dev'", specifier = ">=1.15.0" },
-    { name = "pre-commit", marker = "extra == 'dev'", specifier = ">=4.0.0" },
-    { name = "pydantic", specifier = ">=2.11.4,<3.0.0" },
-    { name = "pytest", marker = "extra == 'dev'", specifier = ">=8.3.5" },
-    { name = "ruff", marker = "extra == 'dev'", specifier = ">=0.9.0" },
-]
-provides-extras = ["dev", "production"]
 
 [[package]]
 name = "dagster"

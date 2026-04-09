@@ -3,7 +3,7 @@ requires = ["hatchling>=1.12.0"]
 build-backend = "hatchling.build"
 
 [project]
-name = "da_pipeline"
+name = "arca_flow"
 version = "0.1.0"
 description = "A Dagster-based orchestrator for OAIS-compliant SIP processing"
 requires-python = ">=3.12"
@@ -21,7 +21,7 @@ dependencies = [
 ]
 
 [project.urls]
-Repository = "https://github.com/eth-library/data-assets-pipeline"
+Repository = "https://github.com/eth-library/arca-flow"
 
 [project.optional-dependencies]
 dev = [
@@ -37,23 +37,23 @@ production = [
 ]
 
 [tool.dagster]
-module_name = "da_pipeline.definitions"
-code_location_name = "da_pipeline"
+module_name = "arca_flow.definitions"
+code_location_name = "arca_flow"
 
 [tool.dg]
 directory_type = "project"
 
 [tool.dg.project]
-root_module = "da_pipeline"
-defs_module = "da_pipeline.definitions"
-code_location_name = "da_pipeline"
+root_module = "arca_flow"
+defs_module = "arca_flow.definitions"
+code_location_name = "arca_flow"
 
 [tool.hatch.build]
-packages = ["da_pipeline"]
-exclude = ["da_pipeline_tests"]
+packages = ["arca_flow"]
+exclude = ["arca_flow_tests"]
 
 [tool.hatch.build.targets.wheel]
-include = ["da_pipeline/**"]
+include = ["arca_flow/**"]
 
 [tool.uv.workspace]
 members = ["cli"]
@@ -78,5 +78,5 @@ ignore = ["E501"]  # line length handled separately
 quote-style = "double"
 
 [tool.pytest.ini_options]
-testpaths = ["da_pipeline_tests"]
+testpaths = ["arca_flow_tests"]
 pythonpath = ["."]
