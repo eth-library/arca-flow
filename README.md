@@ -144,7 +144,7 @@ The pipeline processes XML files through a sequence of Dagster [assets](https://
 
 ### Sensor
 
-The `xml_file_sensor` monitors a configured directory for new XML files and automatically triggers the pipeline. By default, it watches `da_pipeline_tests/test_data/` every 30 seconds.
+The `xml_file_sensor` monitors a configured directory for new XML files and automatically triggers the pipeline. By default, it watches `arca_flow_tests/test_data/` every 30 seconds.
 
 ## Usage
 
@@ -212,7 +212,7 @@ Run `dap --help` to see all available commands.
 | `dap check [--scope ...]` | Run all quality checks (ruff, mypy, pytest) |
 
 The `--scope` flag controls which code is checked:
-- `core` (default): `da_pipeline`, `da_pipeline_tests`
+- `core` (default): `arca_flow`, `arca_flow_tests`
 - `cli`: `cli/dap_cli`, `cli/tests`
 - `all`: both core and CLI
 
@@ -269,7 +269,7 @@ For working on the dap CLI itself (Python, Typer + Rich), see [cli/CONTRIBUTING.
 | Variable | Description | Default |
 |----------|-------------|---------|
 | `DAGSTER_HOME` | Dagster instance directory | Project root (set by `.envrc`) |
-| `DAGSTER_TEST_DATA_PATH` | Directory containing METS XML files for the sensor to monitor | `da_pipeline_tests/test_data` |
+| `DAGSTER_TEST_DATA_PATH` | Directory containing METS XML files for the sensor to monitor | `arca_flow_tests/test_data` |
 | `DAP_THEME` | Override terminal background detection for colours (`light` or `dark`) | unset |
 | `DAP_QUIET` | Set to `1` to suppress Quick Start section in `dap welcome` | unset |
 | `NO_COLOR` | Set to `1` to disable all colour output (also respected in CI) | unset |
@@ -304,7 +304,7 @@ cli/                         # dap CLI (Python) — see cli/CONTRIBUTING.md
 │   └── utils/               # Subprocess helpers
 └── tests/                   # CLI tests
 
-da_pipeline/                 # Main package (Python)
+arca_flow/                   # Main package (Python)
 ├── definitions.py           # Dagster entry point (Definitions)
 ├── assets.py                # Pipeline assets
 ├── sensors.py               # File monitoring sensor and job definition
@@ -312,7 +312,7 @@ da_pipeline/                 # Main package (Python)
 ├── pydantic_models.py       # OAIS-compliant data models
 └── utils.py                 # Helper functions for metadata collection
 
-da_pipeline_tests/           # Tests
+arca_flow_tests/             # Tests
 ├── test_data/               # Sample METS XML files
 │   └── synthetic_sip.xml    # Synthetic test data
 ├── test_assets.py           # Asset tests
