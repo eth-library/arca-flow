@@ -87,13 +87,14 @@ def _get_pending_pods() -> list[str]:
 
 def _wait_for_pods(status_obj: Status) -> bool:
     """Wait for all pods in the namespace to be ready. Returns True on success."""
-    deadline = time.monotonic() + READY_TIMEOUT
+    start = time.monotonic()
+    deadline = start + READY_TIMEOUT
     while time.monotonic() < deadline:
         pending = _get_pending_pods()
         if not pending:
             return True
         waiting_on = ", ".join(pending)
-        elapsed = int(time.monotonic() + READY_TIMEOUT - deadline)
+        elapsed = int(time.monotonic() - start)
         status_obj.update(f"  Waiting for pods ({elapsed}s): {waiting_on}")
         time.sleep(READY_POLL_INTERVAL)
     return False
