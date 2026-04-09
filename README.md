@@ -2,7 +2,7 @@
 
 **ETH Library Zurich · Data Archive · Pipeline Orchestrator**
 
-[!TIP]
+> [!TIP]
 > This repository is part of [Arca](https://github.com/eth-library/arca),
 > ETH Library's digital preservation pipeline. Visit the umbrella
 > repository to understand the full system architecture and how to spin up
