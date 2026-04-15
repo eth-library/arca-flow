@@ -16,7 +16,7 @@ dependencies = [
   "dagster>=1.13.0,<2.0.0",
   "dagster-webserver>=1.10.15,<2.0.0",
   "dagster-dg-cli>=0.1.0",
-  "pydantic>=2.11.4,<3.0.0",
+  "pydantic>=2.13.0,<3.0.0",
   "data-archive-models>=0.1.0a2.dev",
 ]
 
