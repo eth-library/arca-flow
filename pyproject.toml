@@ -24,16 +24,17 @@ dependencies = [
 Repository = "https://github.com/eth-library/arca-flow"
 
 [project.optional-dependencies]
+production = [
+  "dagster-k8s>=0.26.14",
+  "dagster-postgres>=0.26.14",
+]
+
+[dependency-groups]
 dev = [
   "pytest>=9.0.3",
   "ruff>=0.15.10",
   "mypy>=1.20.1",
   "pre-commit>=4.0.0",
-]
-
-production = [
-  "dagster-k8s>=0.26.14",
-  "dagster-postgres>=0.26.14",
 ]
 
 [tool.dagster]
@@ -55,9 +56,6 @@ exclude = ["arca/flow/tests/**"]
 [tool.hatch.build.targets.wheel]
 include = ["arca/flow/**"]
 exclude = ["arca/flow/tests/**"]
-
-[tool.uv.workspace]
-members = ["cli"]
 
 [tool.uv.sources]
 data-archive-models = { index = "testpypi" }
@@ -85,10 +83,6 @@ quote-style = "double"
 namespace_packages = true
 explicit_package_bases = true
 mypy_path = "."
-
-[[tool.mypy.overrides]]
-module = ["arca_flow_cli.*"]
-ignore_missing_imports = true
 
 [tool.pytest.ini_options]
 testpaths = ["arca/flow/tests"]

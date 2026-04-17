@@ -6,12 +6,6 @@ resolution-markers = [
     "python_full_version < '3.13'",
 ]
 
-[manifest]
-members = [
-    "arca-flow",
-    "arca-flow-cli",
-]
-
 [[package]]
 name = "alembic"
 version = "1.18.4"
@@ -79,15 +73,17 @@ dependencies = [
 ]
 
 [package.optional-dependencies]
+production = [
+    { name = "dagster-k8s" },
+    { name = "dagster-postgres" },
+]
+
+[package.dev-dependencies]
 dev = [
     { name = "mypy" },
     { name = "pre-commit" },
     { name = "pytest" },
     { name = "ruff" },
-]
-production = [
-    { name = "dagster-k8s" },
-    { name = "dagster-postgres" },
 ]
 
 [package.metadata]
@@ -98,27 +94,16 @@ requires-dist = [
     { name = "dagster-postgres", marker = "extra == 'production'", specifier = ">=0.26.14" },
     { name = "dagster-webserver", specifier = ">=1.10.15,<2.0.0" },
     { name = "data-archive-models", specifier = ">=0.1.0a2.dev0", index = "https://test.pypi.org/simple" },
-    { name = "mypy", marker = "extra == 'dev'", specifier = ">=1.20.1" },
-    { name = "pre-commit", marker = "extra == 'dev'", specifier = ">=4.0.0" },
     { name = "pydantic", specifier = ">=2.13.0,<3.0.0" },
-    { name = "pytest", marker = "extra == 'dev'", specifier = ">=9.0.3" },
-    { name = "ruff", marker = "extra == 'dev'", specifier = ">=0.15.10" },
 ]
-provides-extras = ["dev", "production"]
+provides-extras = ["production"]
 
-[[package]]
-name = "arca-flow-cli"
-version = "0.1.0"
-source = { editable = "cli" }
-dependencies = [
-    { name = "rich" },
-    { name = "typer" },
-]
-
-[package.metadata]
-requires-dist = [
-    { name = "rich", specifier = ">=13.0.0" },
-    { name = "typer", specifier = ">=0.15.0" },
+[package.metadata.requires-dev]
+dev = [
+    { name = "mypy", specifier = ">=1.20.1" },
+    { name = "pre-commit", specifier = ">=4.0.0" },
+    { name = "pytest", specifier = ">=9.0.3" },
+    { name = "ruff", specifier = ">=0.15.10" },
 ]
 
 [[package]]
