@@ -39,6 +39,7 @@ def render_startup_banner(
     role: str,
     logo: str,
     accent: str = "#215CAF",
+    show_logo: bool = True,
 ) -> None:
     """Render the arca-* startup identity banner.
 
@@ -48,10 +49,13 @@ def render_startup_banner(
         role: Component role (e.g. ``Orchestration Engine``).
         logo: Multi-line ASCII logo text.
         accent: Accent colour for border, title, and logo (default ETH Blue).
+        show_logo: When False, render only the identity panel (no ASCII logo
+            above it). Used in CI logs where the logo adds noise.
     """
-    indent = " " * _LOGO_INDENT
-    indented_logo = "\n".join(f"{indent}[{accent}]{line}[/]" for line in logo.splitlines())
-    console.print(indented_logo)
+    if show_logo:
+        indent = " " * _LOGO_INDENT
+        indented_logo = "\n".join(f"{indent}[{accent}]{line}[/]" for line in logo.splitlines())
+        console.print(indented_logo)
     console.print(
         Padding(
             Panel(
