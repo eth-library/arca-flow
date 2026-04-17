@@ -55,7 +55,7 @@ jobs:
       - uses: ./.github/actions/setup-nix-env
 
       - name: Run core quality checks
-        run: dap check --scope core
+        run: arca-flow check --scope core
 
   # Job to build and publish Docker image
   publish:
