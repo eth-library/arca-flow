@@ -4,12 +4,12 @@ from enum import StrEnum
 
 import typer
 
-from arca_flow_cli.theme import ARROW, FAIL, OK, console
-from arca_flow_cli.utils.run import run_passthrough
+from arca.flow.cli.theme import ARROW, FAIL, OK, console
+from arca.flow.cli.utils.run import run_passthrough
 
 # Target directories per scope
-CORE_TARGETS = ["arca_flow", "arca_flow_tests"]
-CLI_TARGETS = ["cli/arca_flow_cli"]
+CORE_TARGETS = ["arca/flow/core", "arca_flow_tests"]
+CLI_TARGETS = ["cli/arca"]
 ALL_TARGETS = [*CORE_TARGETS, *CLI_TARGETS]
 
 CORE_TEST_TARGETS = ["arca_flow_tests"]

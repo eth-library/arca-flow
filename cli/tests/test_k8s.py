@@ -3,9 +3,10 @@
 import string
 from unittest.mock import MagicMock, patch
 
-from arca_flow_cli.app import app
-from arca_flow_cli.commands.k8s import _generate_password, _get_pending_pods, _wait_for_pods
 from typer.testing import CliRunner
+
+from arca.flow.cli.app import app
+from arca.flow.cli.commands.k8s import _generate_password, _get_pending_pods, _wait_for_pods
 
 runner = CliRunner()
 
@@ -32,7 +33,7 @@ def test_generate_password_characters():
 # ── Unit: _get_pending_pods ──
 
 
-@patch("arca_flow_cli.commands.k8s.run_capture")
+@patch("arca.flow.cli.commands.k8s.run_capture")
 def test_get_pending_pods_all_ready(mock_run):
     mock_run.return_value = (
         0,
@@ -41,7 +42,7 @@ def test_get_pending_pods_all_ready(mock_run):
     assert _get_pending_pods() == []
 
 
-@patch("arca_flow_cli.commands.k8s.run_capture")
+@patch("arca.flow.cli.commands.k8s.run_capture")
 def test_get_pending_pods_some_pending(mock_run):
     mock_run.return_value = (
         0,
@@ -53,14 +54,14 @@ def test_get_pending_pods_some_pending(mock_run):
     assert "Pending" in pending[0]
 
 
-@patch("arca_flow_cli.commands.k8s.run_capture")
+@patch("arca.flow.cli.commands.k8s.run_capture")
 def test_get_pending_pods_kubectl_fails(mock_run):
     mock_run.return_value = (1, "")
     pending = _get_pending_pods()
     assert pending == ["unable to query pods"]
 
 
-@patch("arca_flow_cli.commands.k8s.run_capture")
+@patch("arca.flow.cli.commands.k8s.run_capture")
 def test_get_pending_pods_empty_output(mock_run):
     mock_run.return_value = (0, "")
     pending = _get_pending_pods()
@@ -70,7 +71,7 @@ def test_get_pending_pods_empty_output(mock_run):
 # ── Behavioral: down() ──
 
 
-@patch("arca_flow_cli.commands.k8s.run_capture", return_value=(0, ""))
+@patch("arca.flow.cli.commands.k8s.run_capture", return_value=(0, ""))
 def test_down_calls_all_teardown_steps(mock_run):
     result = runner.invoke(app, ["k8s", "down", "--yes"])
     assert result.exit_code == 0
@@ -88,14 +89,14 @@ def test_down_calls_all_teardown_steps(mock_run):
     assert any("delete" in cmd and "configmap" in cmd for cmd in cmds)
 
 
-@patch("arca_flow_cli.commands.k8s.run_capture", return_value=(1, ""))
+@patch("arca.flow.cli.commands.k8s.run_capture", return_value=(1, ""))
 def test_down_shows_not_found_on_failure(mock_run):
     result = runner.invoke(app, ["k8s", "down", "--yes"])
     assert result.exit_code == 0
     assert "not found" in result.output
 
 
-@patch("arca_flow_cli.commands.k8s.run_capture", return_value=(0, ""))
+@patch("arca.flow.cli.commands.k8s.run_capture", return_value=(0, ""))
 def test_down_shows_teardown_complete(mock_run):
     result = runner.invoke(app, ["k8s", "down", "--yes"])
     assert "Teardown complete" in result.output
@@ -104,7 +105,7 @@ def test_down_shows_teardown_complete(mock_run):
 # ── Behavioral: status() ──
 
 
-@patch("arca_flow_cli.commands.k8s.run_capture")
+@patch("arca.flow.cli.commands.k8s.run_capture")
 def test_status_no_deployment(mock_run):
     mock_run.return_value = (1, "")
     result = runner.invoke(app, ["k8s", "status"])
@@ -112,7 +113,7 @@ def test_status_no_deployment(mock_run):
     assert "not running" in result.output.lower()
 
 
-@patch("arca_flow_cli.commands.k8s.run_capture")
+@patch("arca.flow.cli.commands.k8s.run_capture")
 def test_status_with_pods(mock_run):
     def side_effect(cmd, **kwargs):
         if "get" in cmd and "namespace" in cmd:
@@ -133,8 +134,8 @@ def test_status_with_pods(mock_run):
 # ── Unit: _wait_for_pods timeout ──
 
 
-@patch("arca_flow_cli.commands.k8s.time")
-@patch("arca_flow_cli.commands.k8s._get_pending_pods")
+@patch("arca.flow.cli.commands.k8s.time")
+@patch("arca.flow.cli.commands.k8s._get_pending_pods")
 def test_wait_for_pods_timeout(mock_pending, mock_time):
     # Simulate: first call sets deadline, second enters loop, third for elapsed, fourth exceeds deadline
     mock_time.monotonic.side_effect = [0.0, 0.0, 3.0, 181.0]
@@ -149,8 +150,8 @@ def test_wait_for_pods_timeout(mock_pending, mock_time):
     status_obj.update.assert_called_once()
 
 
-@patch("arca_flow_cli.commands.k8s.time")
-@patch("arca_flow_cli.commands.k8s._get_pending_pods")
+@patch("arca.flow.cli.commands.k8s.time")
+@patch("arca.flow.cli.commands.k8s._get_pending_pods")
 def test_wait_for_pods_success(mock_pending, mock_time):
     # Pods become ready on first check
     mock_time.monotonic.side_effect = [0.0, 0.0]
@@ -163,8 +164,8 @@ def test_wait_for_pods_success(mock_pending, mock_time):
     mock_time.sleep.assert_not_called()
 
 
-@patch("arca_flow_cli.commands.k8s.time")
-@patch("arca_flow_cli.commands.k8s._get_pending_pods")
+@patch("arca.flow.cli.commands.k8s.time")
+@patch("arca.flow.cli.commands.k8s._get_pending_pods")
 def test_wait_for_pods_becomes_ready(mock_pending, mock_time):
     # Pods pending on first check, ready on second
     mock_time.monotonic.side_effect = [0.0, 0.0, 3.0, 6.0]

@@ -4,7 +4,8 @@ from pathlib import Path
 from unittest.mock import patch
 
 import pytest
-from arca_flow_cli.utils.cache import (
+
+from arca.flow.cli.utils.cache import (
     _compute_fingerprint,
     delete_tool_cache,
     load_tool_cache,
@@ -90,9 +91,10 @@ class TestToolCache:
     def test_welcome_uses_cache(self):
         """welcome() should use cached rows and skip subprocess calls."""
         save_tool_cache(SAMPLE_ROWS)
-        with patch("arca_flow_cli.commands.env._tool_info") as mock_tool_info:
-            from arca_flow_cli.app import app
+        with patch("arca.flow.cli.commands.env._tool_info") as mock_tool_info:
             from typer.testing import CliRunner
+
+            from arca.flow.cli.app import app
 
             runner = CliRunner()
             result = runner.invoke(app, ["welcome"])
@@ -103,12 +105,13 @@ class TestToolCache:
         """welcome() should call _tool_info and save cache when no cache exists."""
         with (
             patch(
-                "arca_flow_cli.commands.env._tool_info", return_value=SAMPLE_ROWS
+                "arca.flow.cli.commands.env._tool_info", return_value=SAMPLE_ROWS
             ) as mock_tool_info,
-            patch("arca_flow_cli.commands.env.save_tool_cache") as mock_save,
+            patch("arca.flow.cli.commands.env.save_tool_cache") as mock_save,
         ):
-            from arca_flow_cli.app import app
             from typer.testing import CliRunner
+
+            from arca.flow.cli.app import app
 
             runner = CliRunner()
             result = runner.invoke(app, ["welcome"])

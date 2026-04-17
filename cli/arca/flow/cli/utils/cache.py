@@ -8,7 +8,7 @@ import hashlib
 import json
 from pathlib import Path
 
-from arca_flow_cli.theme import FAIL
+from arca.flow.cli.theme import FAIL
 
 _WATCHED_FILES = ("uv.lock", "flake.lock", "flake.nix")
 _CACHE_FILE = ".arca-flow-tool-cache.json"

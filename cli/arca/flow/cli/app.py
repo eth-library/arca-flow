@@ -9,7 +9,7 @@ import click
 import typer
 import typer.core
 
-from arca_flow_cli.commands import dev, env, hints, k8s
+from arca.flow.cli.commands import dev, env, hints, k8s
 
 # -- Command groups (ordered) ------------------------------------------------
 COMMAND_GROUPS: OrderedDict[str, list[str]] = OrderedDict(

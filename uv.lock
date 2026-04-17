@@ -8,8 +8,8 @@ resolution-markers = [
 
 [manifest]
 members = [
-    "arca-flow",
     "arca-flow-cli",
+    "arca-flow-core",
 ]
 
 [[package]]
@@ -67,7 +67,22 @@ wheels = [
 ]
 
 [[package]]
-name = "arca-flow"
+name = "arca-flow-cli"
+version = "0.1.0"
+source = { editable = "cli" }
+dependencies = [
+    { name = "rich" },
+    { name = "typer" },
+]
+
+[package.metadata]
+requires-dist = [
+    { name = "rich", specifier = ">=13.0.0" },
+    { name = "typer", specifier = ">=0.15.0" },
+]
+
+[[package]]
+name = "arca-flow-core"
 version = "0.1.0"
 source = { editable = "." }
 dependencies = [
@@ -105,21 +120,6 @@ requires-dist = [
     { name = "ruff", marker = "extra == 'dev'", specifier = ">=0.15.10" },
 ]
 provides-extras = ["dev", "production"]
-
-[[package]]
-name = "arca-flow-cli"
-version = "0.1.0"
-source = { editable = "cli" }
-dependencies = [
-    { name = "rich" },
-    { name = "typer" },
-]
-
-[package.metadata]
-requires-dist = [
-    { name = "rich", specifier = ">=13.0.0" },
-    { name = "typer", specifier = ">=0.15.0" },
-]
 
 [[package]]
 name = "attrs"

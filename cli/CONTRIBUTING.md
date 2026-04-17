@@ -3,7 +3,7 @@
 ## Architecture
 
 ```
-cli/arca_flow_cli/
+cli/arca/flow/cli/
   app.py              Entry point — registers all commands on a single Typer app
   theme.py            Rich console, ETH Zurich brand colours, symbols
   commands/
@@ -56,7 +56,7 @@ app.command()(hints.direnv)
 
 5. **Verify:**
    ```bash
-   uv run ruff check cli/arca_flow_cli/
+   uv run ruff check cli/arca/flow/cli/
    uv run pytest cli/tests/ -v
    uv run arca-flow my-command --help
    ```
@@ -68,7 +68,7 @@ All CLI output follows these rules. See [`.claude/skills/tui-design.md`](../.cla
 ### 1. Use the centralized console
 
 ```python
-from arca_flow_cli.theme import console, OK, FAIL, ARROW
+from arca.flow.cli.theme import console, OK, FAIL, ARROW
 ```
 
 Never create a new `Console` instance. The project console writes to stderr, supports `NO_COLOR`, and uses the ETH brand theme.
@@ -136,7 +136,7 @@ Tests use `typer.testing.CliRunner` and mock subprocess calls at the import site
 ```python
 from unittest.mock import patch
 from typer.testing import CliRunner
-from arca_flow_cli.app import app
+from arca.flow.cli.app import app
 
 runner = CliRunner()
 
@@ -144,13 +144,13 @@ def test_my_command_help():
     result = runner.invoke(app, ["my-command", "--help"])
     assert result.exit_code == 0
 
-@patch("arca_flow_cli.commands.dev.run_passthrough", return_value=0)
+@patch("arca.flow.cli.commands.dev.run_passthrough", return_value=0)
 def test_my_command(mock_run):
     result = runner.invoke(app, ["my-command"])
     assert result.exit_code == 0
 ```
 
-**Important:** Patch at the import site (`arca_flow_cli.commands.dev.run_passthrough`), not the definition site (`arca_flow_cli.utils.run.run_passthrough`).
+**Important:** Patch at the import site (`arca.flow.cli.commands.dev.run_passthrough`), not the definition site (`arca.flow.cli.utils.run.run_passthrough`).
 
 ## ETH Zurich brand colours
 

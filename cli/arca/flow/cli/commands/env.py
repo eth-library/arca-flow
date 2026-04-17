@@ -10,12 +10,12 @@ from pathlib import Path
 
 import typer
 
-from arca_flow_cli.banner import render_startup_banner
-from arca_flow_cli.theme import ARROW, FAIL, OK, WARN, console
-from arca_flow_cli.utils.cache import delete_tool_cache, load_tool_cache, save_tool_cache
-from arca_flow_cli.utils.run import run_capture, run_passthrough
+from arca.flow.cli.banner import render_startup_banner
+from arca.flow.cli.theme import ARROW, FAIL, OK, WARN, console
+from arca.flow.cli.utils.cache import delete_tool_cache, load_tool_cache, save_tool_cache
+from arca.flow.cli.utils.run import run_capture, run_passthrough
 
-_LOGO = files("arca_flow_cli").joinpath("logo.txt").read_text(encoding="utf-8")
+_LOGO = files("arca.flow.cli").joinpath("logo.txt").read_text(encoding="utf-8")
 
 
 def _get_version(cmd: list[str], prefix: str = "") -> str | None:
@@ -235,7 +235,7 @@ def clean(
         "*.egg-info",
     ]
     removed = 0
-    for root_dir in [Path("."), Path("arca_flow"), Path("arca_flow_tests")]:
+    for root_dir in [Path("."), Path("arca"), Path("arca_flow_tests")]:
         if not root_dir.exists():
             continue
         for path in root_dir.rglob("*"):
