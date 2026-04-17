@@ -17,4 +17,4 @@ jobs:
       - uses: ./.github/actions/setup-nix-env
 
       - name: Run CLI quality checks
-        run: dap check --scope cli
+        run: arca-flow check --scope cli
