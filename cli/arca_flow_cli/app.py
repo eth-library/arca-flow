@@ -1,4 +1,4 @@
-"""dap — Developer CLI for the Data Archive Pipeline (DAP) Orchestrator."""
+"""Developer CLI for arca-flow — the orchestration engine of ETH Zurich's Digital Preservation Pipeline."""
 
 from __future__ import annotations
 
@@ -53,13 +53,13 @@ class GroupedCommands(typer.core.TyperGroup):
 
 def _version_callback(value: bool) -> None:
     if value:
-        typer.echo(f"dap {version('arca-flow-cli')}")
+        typer.echo(f"arca-flow {version('arca-flow-cli')}")
         raise typer.Exit()
 
 
 app = typer.Typer(
-    name="dap",
-    help="Developer tools for the Data Archive Pipeline (DAP) Orchestrator.",
+    name="arca-flow",
+    help="Developer CLI for arca-flow — the orchestration engine of ETH Zurich's Digital Preservation Pipeline.",
     no_args_is_help=True,
     add_completion=False,
     rich_markup_mode=None,
@@ -78,7 +78,7 @@ def _main(
         is_eager=True,
     ),
 ) -> None:
-    """Developer tools for the Data Archive Pipeline (DAP) Orchestrator."""
+    """Developer CLI for arca-flow — the orchestration engine of ETH Zurich's Digital Preservation Pipeline."""
 
 
 # -- Development -----------------------------------------------------------

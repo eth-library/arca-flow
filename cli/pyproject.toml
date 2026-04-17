@@ -5,7 +5,7 @@ build-backend = "hatchling.build"
 [project]
 name = "arca-flow-cli"
 version = "0.1.0"
-description = "Developer CLI for the Data Archive Pipeline (DAP) - Orchestrator"
+description = "Developer CLI for arca-flow — the orchestration engine of ETH Zurich's Digital Preservation Pipeline."
 requires-python = ">=3.12"
 license = "Apache-2.0"
 dependencies = [
@@ -14,4 +14,4 @@ dependencies = [
 ]
 
 [project.scripts]
-dap = "arca_flow_cli.app:main"
+arca-flow = "arca_flow_cli.app:main"
