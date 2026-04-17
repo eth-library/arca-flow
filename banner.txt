@@ -1,0 +1,4 @@
+  ╭─ ◆ arca-flow ── Orchestration Engine ────╮
+  │   Arca · Digital Preservation Pipeline   │
+  │    Data Archive · ETH Library Zurich     │
+  ╰──────────────────────────────────────────╯

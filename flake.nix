@@ -23,6 +23,7 @@
           basePackages = [
             pkgs.python312
             pkgs.uv
+            pkgs.just
           ];
           k8sPackages = [
             pkgs.kubectl
