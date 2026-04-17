@@ -7,7 +7,6 @@ WORKDIR /app
 
 # Copy dependency files first for layer caching
 COPY pyproject.toml uv.lock ./
-COPY cli/pyproject.toml cli/pyproject.toml
 
 # Install dependencies only (cached unless pyproject.toml or uv.lock change)
 RUN uv sync --frozen --extra production --no-dev --no-install-project --no-editable

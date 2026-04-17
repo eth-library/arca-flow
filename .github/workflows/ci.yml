@@ -7,8 +7,6 @@ on:
     branches: [ main ]
     paths-ignore:
       - 'docs/**'
-      - 'cli/**'
-      - 'helm/**'
       - '.dagster/**'
       - '.dev/**'
       - '.devcontainer/**'
@@ -23,8 +21,6 @@ on:
   pull_request:
     paths-ignore:
       - 'docs/**'
-      - 'cli/**'
-      - 'helm/**'
       - '.dagster/**'
       - '.dev/**'
       - '.devcontainer/**'
@@ -54,8 +50,14 @@ jobs:
       - uses: actions/checkout@v4
       - uses: ./.github/actions/setup-nix-env
 
-      - name: Run core quality checks
-        run: arca-flow check --scope core
+      - name: Lint
+        run: just lint
+
+      - name: Type check
+        run: just type
+
+      - name: Test
+        run: just test
 
   # Job to build and publish Docker image
   publish:

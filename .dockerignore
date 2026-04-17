@@ -2,4 +2,3 @@
 !pyproject.toml
 !uv.lock
 !arca/
-!cli/pyproject.toml
