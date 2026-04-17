@@ -20,8 +20,8 @@ A [Dagster](https://dagster.io/)-powered orchestrator that ingests digital asset
 - [Prerequisites](#prerequisites)
 - [Dev Toolchain](#dev-toolchain)
 - [Architecture](#architecture)
+- [Local Development](#local-development)
 - [Usage](#usage)
-- [Commands Reference](#commands-reference)
 - [Configuration](#configuration)
 - [Project Structure](#project-structure)
 - [Dependency Management](#dependency-management)
@@ -37,7 +37,6 @@ A [Dagster](https://dagster.io/)-powered orchestrator that ingests digital asset
 - Validates file fixity information (MD5, SHA-1, SHA-256, SHA-512 checksums)
 - Automated file monitoring via Dagster sensors
 - Hot-reload development with instant feedback
-- Kubernetes-ready with Helm chart configuration
 
 ## Quick Start
 
@@ -51,7 +50,7 @@ cd arca-flow
 direnv allow
 ```
 
-If not using [direnv](https://direnv.net/), activate the environment manually:
+`direnv allow` activates the Nix devshell, installs Python dependencies, and prints the welcome banner. If not using [direnv](https://direnv.net/), activate the environment manually:
 
 ```bash
 nix develop
@@ -60,7 +59,7 @@ nix develop
 Start the Dagster development server:
 
 ```bash
-dagster dev
+just run
 ```
 
 Open http://localhost:3000 in your browser.
@@ -77,17 +76,13 @@ Set up the project:
 ```bash
 git clone https://github.com/eth-library/arca-flow.git
 cd arca-flow
-uv venv --python python3.12
-source .venv/bin/activate
-uv sync
+uv sync --group dev
 ```
-
-The `arca-flow` command becomes available automatically because the CLI is a UV workspace member.
 
 Start the Dagster development server:
 
 ```bash
-dagster dev
+uv run dg dev
 ```
 
 Open http://localhost:3000 in your browser.
@@ -101,23 +96,18 @@ Open http://localhost:3000 in your browser.
 | [nix-direnv](https://github.com/nix-community/nix-direnv) | Fast Nix + direnv integration | [Install guide](https://github.com/nix-community/nix-direnv#installation) |
 | Python 3.12+ | Runtime | [python.org](https://www.python.org/downloads/) |
 | [uv](https://github.com/astral-sh/uv) | Fast Python package manager | `curl -LsSf https://astral.sh/uv/install.sh \| sh` |
-
-For Kubernetes development, you'll also need:
-
-- Docker Desktop with Kubernetes enabled
-- kubectl
-- helm
+| [just](https://github.com/casey/just) | Command runner | Included in Nix devshell; see [install guide](https://github.com/casey/just#installation) |
 
 ## Dev Toolchain
 
-The project uses a layered toolchain where each layer builds on the one below. See [cli/README.md](cli/README.md) for the full CLI reference.
+The project uses a layered toolchain where each layer builds on the one below.
 
 ```
-nix flakes        Reproducible packages — pins exact versions of Python, uv, kubectl, etc.
+nix flakes        Reproducible packages — pins exact versions of Python, uv, just, etc.
   └─ direnv       Auto-loading shell env — activates when you cd into the project
       └─ nix-direnv   Cached flake evaluation — avoids re-evaluating the flake on every shell
           └─ uv       Fast Python deps — installs packages from the lockfile in milliseconds
-              └─ arca-flow   Ergonomic commands — wraps pytest, ruff, mypy, helm, kubectl
+              └─ just     Developer commands — wraps pytest, ruff, mypy via a justfile
 ```
 
 **Why each layer exists:**
@@ -126,7 +116,7 @@ nix flakes        Reproducible packages — pins exact versions of Python, uv, k
 - **direnv** (`.envrc`): automatically loads the nix environment when you enter the project directory. No manual `nix develop`.
 - **nix-direnv**: caches the nix evaluation so shell startup stays fast. Without it, entering the directory would re-evaluate the flake every time.
 - **uv** (`pyproject.toml`, `uv.lock`): manages Python dependencies. Fast, deterministic, lockfile-based.
-- **arca-flow CLI** (`cli/`): the commands documented below. Wraps quality checks, environment management, and Kubernetes deployment.
+- **just** (`justfile`): the commands documented below. Wraps quality checks and the dev server.
 
 ## Architecture
 
@@ -146,21 +136,26 @@ The pipeline processes XML files through a sequence of Dagster [assets](https://
 
 The `xml_file_sensor` monitors a configured directory for new XML files and automatically triggers the pipeline. By default, it watches `arca/flow/tests/test_data/` every 30 seconds.
 
+## Local Development
+
+Once the environment is set up — `direnv allow` (recommended, Nix + direnv), `nix develop && uv sync --group dev` (Nix without direnv), or `uv sync --group dev` (no Nix) — all dev commands go through `just`. Without Nix, install `just` separately to use the recipes below, or run the underlying `uv run <tool>` commands directly:
+
+```bash
+just          # list all available commands
+just check    # run lint + type check + tests (all quality gates)
+just test     # run pytest
+just lint     # ruff check + format check (read-only)
+just format   # ruff check --fix + ruff format (write)
+just type     # mypy
+just run      # start the Dagster dev server via dg
+just welcome  # re-display the welcome banner
+```
+
+Pass extra arguments to `just test` with a space: `just test -k foo` runs only tests matching `foo`.
+
+For Kubernetes operations (local k3d bringup, multi-service e2e tests), see the umbrella [arca](https://github.com/eth-library/arca) repository.
+
 ## Usage
-
-### Local Development
-
-Start the Dagster UI with hot-reload:
-
-```bash
-dagster dev
-```
-
-Run the test suite:
-
-```bash
-arca-flow test
-```
 
 ### Manual Pipeline Runs
 
@@ -174,94 +169,6 @@ ops:
         - /path/to/your/mets.xml
 ```
 
-### Kubernetes Deployment
-
-Requires Docker Desktop with Kubernetes enabled (Settings > Kubernetes > Enable).
-
-Deploy to local Kubernetes:
-
-```bash
-arca-flow k8s up
-```
-
-The Dagster UI will be available at http://localhost:8080.
-
-Rebuild and restart after code changes:
-
-```bash
-arca-flow k8s restart
-```
-
-Tear down the deployment:
-
-```bash
-arca-flow k8s down
-```
-
-## Commands Reference
-
-Run `arca-flow --help` to see all available commands. A short alias `af` is installed alongside for daily use — `af test`, `af check`, etc. are equivalent to `arca-flow test`, `arca-flow check`.
-
-### Development
-
-| Command | Description |
-|---------|-------------|
-| `arca-flow test [--scope core\|cli\|all]` | Run tests with pytest |
-| `arca-flow lint [--fix] [--scope ...]` | Check code style and formatting with ruff |
-| `arca-flow typecheck [--scope ...]` | Run type checking with mypy |
-| `arca-flow check [--scope ...]` | Run all quality checks (ruff, mypy, pytest) |
-
-The `--scope` flag controls which code is checked:
-- `core` (default): `arca`
-- `cli`: `cli/arca_flow_cli`, `cli/tests`
-- `all`: both core and CLI
-
-### Environment
-
-| Command | Description |
-|---------|-------------|
-| `arca-flow welcome` | Show welcome banner and environment info |
-| `arca-flow tools [--all]` | Show installed tool versions and paths |
-| `arca-flow env` | Show environment paths and status |
-| `arca-flow clean [--yes]` | Remove `.venv` and caches |
-| `arca-flow reset [--yes]` | Clean and reinstall dependencies |
-
-`arca-flow tools` shows the Python toolchain by default. Pass `--all` to include nix, direnv, kubectl, and helm.
-
-`arca-flow clean` and `arca-flow reset` prompt for confirmation. Pass `--yes` / `-y` to skip (for CI/scripts).
-
-### Kubernetes
-
-| Command | Description |
-|---------|-------------|
-| `arca-flow k8s up` | Build and deploy to local Kubernetes |
-| `arca-flow k8s down [--yes]` | Tear down deployment |
-| `arca-flow k8s restart` | Rebuild image and rollout restart |
-| `arca-flow k8s status` | Show pods and services |
-| `arca-flow k8s logs` | Stream user code pod logs |
-| `arca-flow k8s shell` | Interactive shell in user code pod |
-
-### Hint Commands
-
-These commands show how to use tools that are available directly in your shell:
-
-| Command | Description |
-|---------|-------------|
-| `arca-flow uv` | Common uv commands (sync, lock, add, run) |
-| `arca-flow dagster` | Common dagster/dg commands |
-| `arca-flow direnv` | Common direnv commands (allow, reload, status) |
-
-### Global Flags
-
-| Flag | Description |
-|------|-------------|
-| `--version` / `-V` | Show CLI version |
-| `--help` | Show help |
-
-### CLI Development
-
-For working on the arca-flow CLI itself (Python, Typer + Rich), see [cli/CONTRIBUTING.md](cli/CONTRIBUTING.md).
-
 ## Configuration
 
 ### Environment Variables
@@ -270,10 +177,8 @@ For working on the arca-flow CLI itself (Python, Typer + Rich), see [cli/CONTRIB
 |----------|-------------|---------|
 | `DAGSTER_HOME` | Dagster instance directory | Project root (set by `.envrc`) |
 | `DAGSTER_TEST_DATA_PATH` | Directory containing METS XML files for the sensor to monitor | `arca/flow/tests/test_data` |
-| `ARCA_FLOW_THEME` | Override terminal background detection for colours (`light` or `dark`) | unset |
-| `ARCA_FLOW_QUIET` | Set to `1` to suppress Quick Start section in `arca-flow welcome` | unset |
-| `CI` | When set (e.g. by GitHub Actions), `arca-flow welcome` also omits the startup banner and Quick Start | unset |
-| `NO_COLOR` | Set to `1` to disable all colour output (also respected in CI) | unset |
+| `CI` | When set (e.g. by GitHub Actions), `just welcome` exits silently | unset |
+| `NO_COLOR` | Set to any non-empty value to disable all colour output | unset |
 
 Copy `.env.example` to `.env` and modify as needed.
 
@@ -281,29 +186,26 @@ Copy `.env.example` to `.env` and modify as needed.
 
 | File | Purpose |
 |------|---------|
-| `flake.nix` | Nix development environment with multiple shells (see below) |
-| `cli/` | Python CLI source code (see [cli/CONTRIBUTING.md](cli/CONTRIBUTING.md)) |
+| `flake.nix` | Nix development environment |
+| `justfile` | Developer command runner |
 | `pyproject.toml` | Python project metadata and dependencies |
 | `dagster.yaml` | Dagster instance configuration |
 | `config.yaml` | Example run configuration for manual pipeline execution |
-| `helm/values.yaml` | Base Helm values for Kubernetes deployment |
-| `helm/values-local.yaml` | Local Kubernetes overrides |
-| `helm/pvc.yaml` | Persistent volume claim for Dagster storage |
 
 ### Development Shells
 
-The Nix flake provides a single development shell activated via `direnv allow` or `nix develop`. It includes Python, uv, kubectl, and helm.
+The Nix flake exposes two devShells:
+
+- `default` — Python + uv + just + kubectl + helm (full stack)
+- `minimal` — Python + uv + just (pipeline and tests only)
+
+Activated via `direnv allow` (uses `default`) or `nix develop .#minimal`.
 
 ## Project Structure
 
 ```
-cli/                         # arca-flow CLI (Python) — see cli/CONTRIBUTING.md
-├── arca_flow_cli/
-│   ├── app.py               # Entry point — registers all commands
-│   ├── theme.py             # Rich console, ETH brand colors, symbols
-│   ├── commands/            # Command modules (dev, env, hints, k8s)
-│   └── utils/               # Subprocess helpers
-└── tests/                   # CLI tests
+justfile                     # Developer commands (just check, just test, just run, …)
+banner.txt                   # Welcome banner rendered by just welcome
 
 arca/flow/                   # Main package (Python)
 ├── definitions.py           # Dagster entry point (Definitions)
@@ -317,21 +219,16 @@ arca/flow/                   # Main package (Python)
     │   └── synthetic_sip.xml
     ├── test_assets.py       # Asset tests
     └── conftest.py          # Pytest fixtures
-
-helm/                        # Kubernetes configuration
-├── values.yaml              # Base Helm values
-├── values-local.yaml        # Local development overrides
-└── pvc.yaml                 # Persistent volume claim
 ```
 
 ## Dependency Management
 
 Dependencies are managed with [uv](https://github.com/astral-sh/uv):
 
-Install or update dependencies:
+Install or update dependencies (including dev group):
 
 ```bash
-uv sync
+uv sync --group dev
 ```
 
 Update the lock file:
@@ -350,21 +247,11 @@ uv add <package>
 
 ### Dagster UI not loading
 
-Ensure no other process is using port 3000 (local) or 8080 (Kubernetes):
+Ensure no other process is using port 3000:
 
 ```bash
 lsof -i :3000
 ```
-
-### Kubernetes deployment fails
-
-Verify Kubernetes is running:
-
-```bash
-kubectl cluster-info
-```
-
-Ensure Docker Desktop Kubernetes is enabled in Settings > Kubernetes > Enable Kubernetes.
 
 ### Sensor not detecting files
 
@@ -375,7 +262,7 @@ Check the `DAGSTER_TEST_DATA_PATH` environment variable points to a directory co
 Ensure dependencies are installed:
 
 ```bash
-uv sync
+uv sync --group dev
 ```
 
 ## Domain Terms
@@ -409,13 +296,7 @@ uv sync
 ### Development Tools
 
 - [uv](https://github.com/astral-sh/uv) - Fast Python package manager
-- [Typer](https://typer.tiangolo.com/) - Python CLI framework
-- [Rich](https://rich.readthedocs.io/) - Terminal formatting library
+- [just](https://github.com/casey/just) - Command runner
 - [Nix](https://nixos.org/) - Reproducible development environments
 - [direnv](https://direnv.net/) - Automatic environment loading
 - [Ruff](https://docs.astral.sh/ruff/) - Python linter and formatter
-
-### Kubernetes
-
-- [Helm](https://helm.sh/docs/) - Kubernetes package manager
-- [Dagster Helm Chart](https://docs.dagster.io/deployment/guides/kubernetes/deploying-with-helm)
