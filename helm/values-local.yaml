@@ -37,7 +37,7 @@ dagster-user-deployments:
         pullPolicy: Never
       dagsterApiGrpcArgs:
         - "--python-file"
-        - "/arca_flow/definitions.py"
+        - "/arca/flow/core/definitions.py"
       port: 3030
       includeConfigInLaunchedRuns:
         enabled: true
@@ -45,7 +45,7 @@ dagster-user-deployments:
       # Environment variables for local dev
       env:
         - name: DAGSTER_TEST_DATA_PATH
-          value: "/arca_flow_tests/test_data"
+          value: "/tests/core/test_data"
 
       # Mount test data and persistent storage
       volumes:
@@ -58,7 +58,7 @@ dagster-user-deployments:
 
       volumeMounts:
         - name: test-data-xml
-          mountPath: /arca_flow_tests/test_data
+          mountPath: /tests/core/test_data
         - name: dagster-storage
           mountPath: /opt/dagster/dagster_home/storage
 
@@ -75,7 +75,7 @@ runLauncher:
 
       # Environment variables for run pods
       envVars:
-        - "DAGSTER_TEST_DATA_PATH=/arca_flow_tests/test_data"
+        - "DAGSTER_TEST_DATA_PATH=/tests/core/test_data"
 
       # Mount test data and persistent storage in run pods
       volumes:
@@ -90,7 +90,7 @@ runLauncher:
         - name: dagster-storage
           mountPath: /opt/dagster/dagster_home/storage
         - name: test-data-xml
-          mountPath: /arca_flow_tests/test_data
+          mountPath: /tests/core/test_data
 
 ####################################################################################################
 # Pipeline Run Image - Local overrides

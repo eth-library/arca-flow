@@ -1,5 +1,5 @@
 *
 !pyproject.toml
 !uv.lock
-!arca_flow/
+!arca/
 !cli/pyproject.toml

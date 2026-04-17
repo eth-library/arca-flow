@@ -38,7 +38,7 @@ production = [
 
 [tool.dagster]
 module_name = "arca.flow.core.definitions"
-code_location_name = "arca_flow"
+code_location_name = "arca_flow_core"
 
 [tool.dg]
 directory_type = "project"
@@ -46,7 +46,7 @@ directory_type = "project"
 [tool.dg.project]
 root_module = "arca.flow.core"
 defs_module = "arca.flow.core.definitions"
-code_location_name = "arca_flow"
+code_location_name = "arca_flow_core"
 
 [tool.hatch.build]
 packages = ["arca"]

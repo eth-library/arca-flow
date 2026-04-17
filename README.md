@@ -298,7 +298,7 @@ The Nix flake provides a single development shell activated via `direnv allow` o
 
 ```
 cli/                         # arca-flow CLI (Python) — see cli/CONTRIBUTING.md
-├── arca_flow_cli/
+├── arca/flow/cli/           # PEP 420 namespace: arca.flow.cli
 │   ├── app.py               # Entry point — registers all commands
 │   ├── theme.py             # Rich console, ETH brand colors, symbols
 │   ├── commands/            # Command modules (dev, env, hints, k8s)
