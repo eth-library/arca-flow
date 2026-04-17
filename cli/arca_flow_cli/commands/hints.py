@@ -2,7 +2,7 @@
 
 import typer
 
-from dap_cli.theme import ARROW, console
+from arca_flow_cli.theme import ARROW, console
 
 
 def uv(ctx: typer.Context) -> None:

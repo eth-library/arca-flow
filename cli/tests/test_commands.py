@@ -2,7 +2,7 @@
 
 from unittest.mock import patch
 
-from dap_cli.app import app
+from arca_flow_cli.app import app
 from typer.testing import CliRunner
 
 runner = CliRunner()
@@ -75,7 +75,7 @@ def test_k8s_help():
 # ── Behavioral: commands call the right tools ──
 
 
-@patch("dap_cli.commands.dev.run_passthrough", return_value=0)
+@patch("arca_flow_cli.commands.dev.run_passthrough", return_value=0)
 def test_lint_calls_ruff(mock_run):
     result = runner.invoke(app, ["lint"])
     assert result.exit_code == 0
@@ -84,7 +84,7 @@ def test_lint_calls_ruff(mock_run):
     assert any("ruff" in c and "format" in c for c in calls)
 
 
-@patch("dap_cli.commands.dev.run_passthrough", return_value=0)
+@patch("arca_flow_cli.commands.dev.run_passthrough", return_value=0)
 def test_lint_fix_calls_ruff_fix(mock_run):
     result = runner.invoke(app, ["lint", "--fix"])
     assert result.exit_code == 0
@@ -92,7 +92,7 @@ def test_lint_fix_calls_ruff_fix(mock_run):
     assert any("ruff" in c and "--fix" in c for c in calls)
 
 
-@patch("dap_cli.commands.dev.run_passthrough", return_value=0)
+@patch("arca_flow_cli.commands.dev.run_passthrough", return_value=0)
 def test_test_calls_pytest(mock_run):
     result = runner.invoke(app, ["test"])
     assert result.exit_code == 0
@@ -101,7 +101,7 @@ def test_test_calls_pytest(mock_run):
     assert call_args[0] == "pytest"
 
 
-@patch("dap_cli.commands.dev.run_passthrough", return_value=0)
+@patch("arca_flow_cli.commands.dev.run_passthrough", return_value=0)
 def test_typecheck_calls_mypy(mock_run):
     result = runner.invoke(app, ["typecheck"])
     assert result.exit_code == 0
@@ -109,7 +109,7 @@ def test_typecheck_calls_mypy(mock_run):
     assert call_args[0] == "mypy"
 
 
-@patch("dap_cli.commands.dev.run_passthrough", return_value=0)
+@patch("arca_flow_cli.commands.dev.run_passthrough", return_value=0)
 def test_check_runs_all_steps(mock_run):
     result = runner.invoke(app, ["check"])
     assert result.exit_code == 0
@@ -119,7 +119,7 @@ def test_check_runs_all_steps(mock_run):
     assert any("pytest" in c for c in calls)
 
 
-@patch("dap_cli.commands.dev.run_passthrough", return_value=1)
+@patch("arca_flow_cli.commands.dev.run_passthrough", return_value=1)
 def test_check_fails_fast_on_lint(mock_run):
     result = runner.invoke(app, ["check"])
     assert result.exit_code == 1
@@ -127,7 +127,7 @@ def test_check_fails_fast_on_lint(mock_run):
     assert mock_run.call_count <= 2  # at most ruff check (failed)
 
 
-@patch("dap_cli.commands.env.run_passthrough", return_value=0)
+@patch("arca_flow_cli.commands.env.run_passthrough", return_value=0)
 def test_reset_calls_uv_sync(mock_run):
     result = runner.invoke(app, ["reset", "--yes"])
     assert result.exit_code == 0

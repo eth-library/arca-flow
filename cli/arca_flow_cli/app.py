@@ -9,7 +9,7 @@ import click
 import typer
 import typer.core
 
-from dap_cli.commands import dev, env, hints, k8s
+from arca_flow_cli.commands import dev, env, hints, k8s
 
 # -- Command groups (ordered) ------------------------------------------------
 COMMAND_GROUPS: OrderedDict[str, list[str]] = OrderedDict(
@@ -53,7 +53,7 @@ class GroupedCommands(typer.core.TyperGroup):
 
 def _version_callback(value: bool) -> None:
     if value:
-        typer.echo(f"dap {version('dap-cli')}")
+        typer.echo(f"dap {version('arca-flow-cli')}")
         raise typer.Exit()
 
 

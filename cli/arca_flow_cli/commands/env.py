@@ -10,11 +10,11 @@ from pathlib import Path
 
 import typer
 
-from dap_cli.theme import ARROW, ETH_BLUE_LOGO, FAIL, OK, WARN, console
-from dap_cli.utils.cache import delete_tool_cache, load_tool_cache, save_tool_cache
-from dap_cli.utils.run import run_capture, run_passthrough
+from arca_flow_cli.theme import ARROW, ETH_BLUE_LOGO, FAIL, OK, WARN, console
+from arca_flow_cli.utils.cache import delete_tool_cache, load_tool_cache, save_tool_cache
+from arca_flow_cli.utils.run import run_capture, run_passthrough
 
-_logo_text = files("dap_cli").joinpath("logo.txt").read_text(encoding="utf-8")
+_logo_text = files("arca_flow_cli").joinpath("logo.txt").read_text(encoding="utf-8")
 LOGO = "\n".join(f"  [{ETH_BLUE_LOGO}]{line}[/]" for line in _logo_text.splitlines())
 
 
@@ -51,7 +51,7 @@ def _nix_tools() -> list[tuple[str, str, str]]:
 def _python_tools() -> list[tuple[str, str, str]]:
     """Python packages installed by uv into the virtualenv."""
     return [
-        _tool_row("dap", version("dap-cli"), _get_path("dap")),
+        _tool_row("dap", version("arca-flow-cli"), _get_path("dap")),
         _tool_row(
             "dagster",
             _get_version(["python", "-c", "import dagster; print(dagster.__version__)"]),

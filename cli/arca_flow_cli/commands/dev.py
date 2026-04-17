@@ -4,12 +4,12 @@ from enum import StrEnum
 
 import typer
 
-from dap_cli.theme import ARROW, FAIL, OK, console
-from dap_cli.utils.run import run_passthrough
+from arca_flow_cli.theme import ARROW, FAIL, OK, console
+from arca_flow_cli.utils.run import run_passthrough
 
 # Target directories per scope
 CORE_TARGETS = ["arca_flow", "arca_flow_tests"]
-CLI_TARGETS = ["cli/dap_cli"]
+CLI_TARGETS = ["cli/arca_flow_cli"]
 ALL_TARGETS = [*CORE_TARGETS, *CLI_TARGETS]
 
 CORE_TEST_TARGETS = ["arca_flow_tests"]

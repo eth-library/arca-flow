@@ -8,8 +8,8 @@ from pathlib import Path
 import typer
 from rich.status import Status
 
-from dap_cli.theme import ARROW, DASH, FAIL, OK, WARN, console
-from dap_cli.utils.run import run_capture, run_interactive, run_passthrough
+from arca_flow_cli.theme import ARROW, DASH, FAIL, OK, WARN, console
+from arca_flow_cli.utils.run import run_capture, run_interactive, run_passthrough
 
 app = typer.Typer(no_args_is_help=True)
 

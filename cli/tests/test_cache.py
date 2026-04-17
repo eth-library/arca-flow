@@ -4,7 +4,7 @@ from pathlib import Path
 from unittest.mock import patch
 
 import pytest
-from dap_cli.utils.cache import (
+from arca_flow_cli.utils.cache import (
     _compute_fingerprint,
     delete_tool_cache,
     load_tool_cache,
@@ -90,8 +90,8 @@ class TestToolCache:
     def test_welcome_uses_cache(self):
         """welcome() should use cached rows and skip subprocess calls."""
         save_tool_cache(SAMPLE_ROWS)
-        with patch("dap_cli.commands.env._tool_info") as mock_tool_info:
-            from dap_cli.app import app
+        with patch("arca_flow_cli.commands.env._tool_info") as mock_tool_info:
+            from arca_flow_cli.app import app
             from typer.testing import CliRunner
 
             runner = CliRunner()
@@ -102,10 +102,12 @@ class TestToolCache:
     def test_welcome_populates_cache_on_miss(self):
         """welcome() should call _tool_info and save cache when no cache exists."""
         with (
-            patch("dap_cli.commands.env._tool_info", return_value=SAMPLE_ROWS) as mock_tool_info,
-            patch("dap_cli.commands.env.save_tool_cache") as mock_save,
+            patch(
+                "arca_flow_cli.commands.env._tool_info", return_value=SAMPLE_ROWS
+            ) as mock_tool_info,
+            patch("arca_flow_cli.commands.env.save_tool_cache") as mock_save,
         ):
-            from dap_cli.app import app
+            from arca_flow_cli.app import app
             from typer.testing import CliRunner
 
             runner = CliRunner()

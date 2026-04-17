@@ -8,7 +8,7 @@ import hashlib
 import json
 from pathlib import Path
 
-from dap_cli.theme import FAIL
+from arca_flow_cli.theme import FAIL
 
 _WATCHED_FILES = ("uv.lock", "flake.lock", "flake.nix")
 _CACHE_FILE = ".dap-tool-cache.json"
