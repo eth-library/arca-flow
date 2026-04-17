@@ -272,6 +272,7 @@ For working on the arca-flow CLI itself (Python, Typer + Rich), see [cli/CONTRIB
 | `DAGSTER_TEST_DATA_PATH` | Directory containing METS XML files for the sensor to monitor | `arca_flow_tests/test_data` |
 | `ARCA_FLOW_THEME` | Override terminal background detection for colours (`light` or `dark`) | unset |
 | `ARCA_FLOW_QUIET` | Set to `1` to suppress Quick Start section in `arca-flow welcome` | unset |
+| `CI` | When set (e.g. by GitHub Actions), `arca-flow welcome` also omits the startup banner and Quick Start | unset |
 | `NO_COLOR` | Set to `1` to disable all colour output (also respected in CI) | unset |
 
 Copy `.env.example` to `.env` and modify as needed.

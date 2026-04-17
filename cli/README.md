@@ -101,6 +101,7 @@ These commands show how to use tools that are available directly in your shell:
 |----------|--------|
 | `ARCA_FLOW_THEME=light\|dark` | Override terminal background detection for colours |
 | `ARCA_FLOW_QUIET=1` | Suppress Quick Start section in `arca-flow welcome` |
+| `CI` (set) | `arca-flow welcome` also omits the startup banner and Quick Start |
 | `NO_COLOR=1` | Disable all colour output (also respected in CI) |
 
 ## Contributing
