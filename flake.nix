@@ -20,7 +20,7 @@
       devShells = forAllSystems (pkgs: {
         default = pkgs.mkShell {
           packages = [
-            pkgs.python312
+            pkgs.python314
             pkgs.uv
             pkgs.just
           ];
