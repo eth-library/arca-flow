@@ -91,17 +91,17 @@ test *args:
 
 # Lint: check code style + formatting (read-only, no rewrites)
 lint:
-    uv run ruff check arca arca/flow/tests
-    uv run ruff format --check arca arca/flow/tests
+    uv run ruff check arca
+    uv run ruff format --check arca
 
 # Format: apply formatter + auto-fix lint issues (write)
 format:
-    uv run ruff check --fix arca arca/flow/tests
-    uv run ruff format arca arca/flow/tests
+    uv run ruff check --fix arca
+    uv run ruff format arca
 
 # Type-check with mypy
 type:
-    uv run mypy arca arca/flow/tests
+    uv run mypy arca
 
 # Start the Dagster dev server (via dg — the project-scoped CLI)
 run:
