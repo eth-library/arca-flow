@@ -3,7 +3,7 @@ requires = ["hatchling>=1.29.0"]
 build-backend = "hatchling.build"
 
 [project]
-name = "arca_flow"
+name = "arca-flow"
 version = "0.1.0"
 description = "A Dagster-based orchestrator for OAIS-compliant SIP processing"
 requires-python = ">=3.12"
@@ -37,23 +37,24 @@ production = [
 ]
 
 [tool.dagster]
-module_name = "arca_flow.definitions"
+module_name = "arca.flow.definitions"
 code_location_name = "arca_flow"
 
 [tool.dg]
 directory_type = "project"
 
 [tool.dg.project]
-root_module = "arca_flow"
-defs_module = "arca_flow.definitions"
+root_module = "arca.flow"
+defs_module = "arca.flow.definitions"
 code_location_name = "arca_flow"
 
 [tool.hatch.build]
-packages = ["arca_flow"]
-exclude = ["arca_flow_tests"]
+packages = ["arca"]
+exclude = ["arca/flow/tests/**"]
 
 [tool.hatch.build.targets.wheel]
-include = ["arca_flow/**"]
+include = ["arca/flow/**"]
+exclude = ["arca/flow/tests/**"]
 
 [tool.uv.workspace]
 members = ["cli"]
@@ -74,9 +75,17 @@ line-length = 100
 select = ["E", "F", "I", "UP", "B", "SIM"]
 ignore = ["E501"]  # line length handled separately
 
+[tool.ruff.lint.isort]
+known-first-party = ["arca"]
+
 [tool.ruff.format]
 quote-style = "double"
 
+[tool.mypy]
+namespace_packages = true
+explicit_package_bases = true
+mypy_path = "."
+
 [tool.pytest.ini_options]
-testpaths = ["arca_flow_tests"]
+testpaths = ["arca/flow/tests"]
 pythonpath = ["."]

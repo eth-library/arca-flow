@@ -2,7 +2,7 @@
 
 from dagster import MetadataValue
 
-from arca_flow.pydantic_models import FileModel, FixityModel, IEModel
+from arca.flow.pydantic_models import FileModel, FixityModel, IEModel
 
 
 def collect_dc_metadata(ie_list: list[IEModel]) -> dict:

@@ -3,7 +3,7 @@ import os
 import pytest
 from dagster import materialize
 
-from arca_flow.assets import files, fixities, intellectual_entities, representations, sip_asset
+from arca.flow.assets import files, fixities, intellectual_entities, representations, sip_asset
 
 
 @pytest.fixture

@@ -25,7 +25,7 @@ Key Features:
 
 Usage:
     ```python
-    from arca_flow.pydantic_models import SIPModel, IEModel
+    from arca.flow.pydantic_models import SIPModel, IEModel
 
     # Create a new SIP
     sip = SIPModel(

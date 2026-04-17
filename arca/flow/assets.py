@@ -2,15 +2,15 @@
 
 from dagster import MetadataValue, Output, asset
 
-from arca_flow.mets_parser import parse_mets_to_sip
-from arca_flow.pydantic_models import (
+from arca.flow.mets_parser import parse_mets_to_sip
+from arca.flow.pydantic_models import (
     FileModel,
     FixityModel,
     IEModel,
     RepresentationModel,
     SIPModel,
 )
-from arca_flow.utils import collect_dc_metadata, collect_fixity_details, group_fixities_by_file
+from arca.flow.utils import collect_dc_metadata, collect_fixity_details, group_fixities_by_file
 
 
 @asset(config_schema={"file_paths": [str]})
