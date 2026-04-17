@@ -144,7 +144,7 @@ The pipeline processes XML files through a sequence of Dagster [assets](https://
 
 ### Sensor
 
-The `xml_file_sensor` monitors a configured directory for new XML files and automatically triggers the pipeline. By default, it watches `arca_flow_tests/test_data/` every 30 seconds.
+The `xml_file_sensor` monitors a configured directory for new XML files and automatically triggers the pipeline. By default, it watches `arca/flow/tests/test_data/` every 30 seconds.
 
 ## Usage
 
@@ -212,7 +212,7 @@ Run `arca-flow --help` to see all available commands. A short alias `af` is inst
 | `arca-flow check [--scope ...]` | Run all quality checks (ruff, mypy, pytest) |
 
 The `--scope` flag controls which code is checked:
-- `core` (default): `arca_flow`, `arca_flow_tests`
+- `core` (default): `arca`
 - `cli`: `cli/arca_flow_cli`, `cli/tests`
 - `all`: both core and CLI
 
@@ -269,7 +269,7 @@ For working on the arca-flow CLI itself (Python, Typer + Rich), see [cli/CONTRIB
 | Variable | Description | Default |
 |----------|-------------|---------|
 | `DAGSTER_HOME` | Dagster instance directory | Project root (set by `.envrc`) |
-| `DAGSTER_TEST_DATA_PATH` | Directory containing METS XML files for the sensor to monitor | `arca_flow_tests/test_data` |
+| `DAGSTER_TEST_DATA_PATH` | Directory containing METS XML files for the sensor to monitor | `arca/flow/tests/test_data` |
 | `ARCA_FLOW_THEME` | Override terminal background detection for colours (`light` or `dark`) | unset |
 | `ARCA_FLOW_QUIET` | Set to `1` to suppress Quick Start section in `arca-flow welcome` | unset |
 | `CI` | When set (e.g. by GitHub Actions), `arca-flow welcome` also omits the startup banner and Quick Start | unset |
@@ -305,19 +305,18 @@ cli/                         # arca-flow CLI (Python) — see cli/CONTRIBUTING.m
 │   └── utils/               # Subprocess helpers
 └── tests/                   # CLI tests
 
-arca_flow/                   # Main package (Python)
+arca/flow/                   # Main package (Python)
 ├── definitions.py           # Dagster entry point (Definitions)
 ├── assets.py                # Pipeline assets
 ├── sensors.py               # File monitoring sensor and job definition
 ├── mets_parser.py           # METS XML parsing logic
 ├── pydantic_models.py       # OAIS-compliant data models
-└── utils.py                 # Helper functions for metadata collection
-
-arca_flow_tests/             # Tests
-├── test_data/               # Sample METS XML files
-│   └── synthetic_sip.xml    # Synthetic test data
-├── test_assets.py           # Asset tests
-└── conftest.py              # Pytest fixtures
+├── utils.py                 # Helper functions for metadata collection
+└── tests/
+    ├── test_data/           # Sample METS XML files
+    │   └── synthetic_sip.xml
+    ├── test_assets.py       # Asset tests
+    └── conftest.py          # Pytest fixtures
 
 helm/                        # Kubernetes configuration
 ├── values.yaml              # Base Helm values
