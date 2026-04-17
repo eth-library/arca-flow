@@ -6,7 +6,7 @@ build-backend = "hatchling.build"
 name = "arca-flow"
 version = "0.1.0"
 description = "A Dagster-based orchestrator for OAIS-compliant SIP processing"
-requires-python = ">=3.12"
+requires-python = ">=3.14"
 license = "Apache-2.0"
 authors = [
   { name = "Jaime Cardozo", email = "jaime.cardozo@library.ethz.ch" },
@@ -66,7 +66,7 @@ url = "https://test.pypi.org/simple"
 explicit = true
 
 [tool.ruff]
-target-version = "py312"
+target-version = "py314"
 line-length = 100
 
 [tool.ruff.lint]
