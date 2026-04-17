@@ -155,8 +155,16 @@ def _env_info() -> list[tuple[str, str, str]]:
 
 def welcome() -> None:
     """Show welcome banner and environment info."""
+    in_ci = bool(os.getenv("CI"))
+
     console.print()
-    render_startup_banner(console, "arca-flow", "Orchestration Engine", _LOGO)
+    render_startup_banner(
+        console,
+        "arca-flow",
+        "Orchestration Engine",
+        _LOGO,
+        show_logo=not in_ci,
+    )
 
     console.print()
     console.print("  [title]Tools[/]")
@@ -170,7 +178,7 @@ def welcome() -> None:
     console.print("  [title]Environment[/]")
     _print_info_rows(_env_info())
 
-    if not os.getenv("ARCA_FLOW_QUIET"):
+    if not in_ci and not os.getenv("ARCA_FLOW_QUIET"):
         console.print()
         console.print("  [title]Quick Start[/]")
         console.print(f"  {'af test':<14} Run tests (pytest)")
