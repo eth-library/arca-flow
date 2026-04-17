@@ -68,7 +68,7 @@ Open http://localhost:3000 in your browser.
 
 Ensure you have the following installed:
 
-- Python 3.12+
+- Python 3.14+
 - [uv](https://github.com/astral-sh/uv) (Python package manager)
 
 Set up the project:
@@ -94,7 +94,7 @@ Open http://localhost:3000 in your browser.
 | [Nix](https://nixos.org/download.html) | Development environment (optional but recommended) | [Install guide](https://nixos.org/download.html) |
 | [direnv](https://direnv.net/) | Automatic environment loading | [Install guide](https://direnv.net/docs/installation.html) |
 | [nix-direnv](https://github.com/nix-community/nix-direnv) | Fast Nix + direnv integration | [Install guide](https://github.com/nix-community/nix-direnv#installation) |
-| Python 3.12+ | Runtime | [python.org](https://www.python.org/downloads/) |
+| Python 3.14+ | Runtime | [python.org](https://www.python.org/downloads/) |
 | [uv](https://github.com/astral-sh/uv) | Fast Python package manager | `curl -LsSf https://astral.sh/uv/install.sh \| sh` |
 | [just](https://github.com/casey/just) | Command runner | Included in Nix devshell; see [install guide](https://github.com/casey/just#installation) |
 
