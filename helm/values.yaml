@@ -17,7 +17,7 @@ dagster-user-deployments:
         pullPolicy: Always
       dagsterApiGrpcArgs:
         - "--python-file"
-        - "/arca_flow/definitions.py"
+        - "/arca/flow/definitions.py"
       port: 3030
       includeConfigInLaunchedRuns:
         enabled: true
