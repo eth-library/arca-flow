@@ -1,5 +1,5 @@
 # Stage 1: Build dependencies and install project
-FROM python:3.12-slim AS builder
+FROM python:3.14-slim AS builder
 
 COPY --from=ghcr.io/astral-sh/uv:latest /uv /uvx /bin/
 
@@ -18,7 +18,7 @@ COPY arca/ arca/
 RUN uv sync --frozen --extra production --no-dev --no-editable
 
 # Stage 2: Minimal runtime image
-FROM python:3.12-slim
+FROM python:3.14-slim
 
 WORKDIR /app
 
