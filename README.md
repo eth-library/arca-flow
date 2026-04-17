@@ -82,7 +82,7 @@ source .venv/bin/activate
 uv sync
 ```
 
-The `dap` command becomes available automatically because the CLI is a UV workspace member.
+The `arca-flow` command becomes available automatically because the CLI is a UV workspace member.
 
 Start the Dagster development server:
 
@@ -117,7 +117,7 @@ nix flakes        Reproducible packages — pins exact versions of Python, uv, k
   └─ direnv       Auto-loading shell env — activates when you cd into the project
       └─ nix-direnv   Cached flake evaluation — avoids re-evaluating the flake on every shell
           └─ uv       Fast Python deps — installs packages from the lockfile in milliseconds
-              └─ dap   Ergonomic commands — wraps pytest, ruff, mypy, helm, kubectl
+              └─ arca-flow   Ergonomic commands — wraps pytest, ruff, mypy, helm, kubectl
 ```
 
 **Why each layer exists:**
@@ -126,7 +126,7 @@ nix flakes        Reproducible packages — pins exact versions of Python, uv, k
 - **direnv** (`.envrc`): automatically loads the nix environment when you enter the project directory. No manual `nix develop`.
 - **nix-direnv**: caches the nix evaluation so shell startup stays fast. Without it, entering the directory would re-evaluate the flake every time.
 - **uv** (`pyproject.toml`, `uv.lock`): manages Python dependencies. Fast, deterministic, lockfile-based.
-- **dap CLI** (`cli/`): the commands documented below. Wraps quality checks, environment management, and Kubernetes deployment.
+- **arca-flow CLI** (`cli/`): the commands documented below. Wraps quality checks, environment management, and Kubernetes deployment.
 
 ## Architecture
 
@@ -159,7 +159,7 @@ dagster dev
 Run the test suite:
 
 ```bash
-dap test
+arca-flow test
 ```
 
 ### Manual Pipeline Runs
@@ -181,7 +181,7 @@ Requires Docker Desktop with Kubernetes enabled (Settings > Kubernetes > Enable)
 Deploy to local Kubernetes:
 
 ```bash
-dap k8s up
+arca-flow k8s up
 ```
 
 The Dagster UI will be available at http://localhost:8080.
@@ -189,57 +189,57 @@ The Dagster UI will be available at http://localhost:8080.
 Rebuild and restart after code changes:
 
 ```bash
-dap k8s restart
+arca-flow k8s restart
 ```
 
 Tear down the deployment:
 
 ```bash
-dap k8s down
+arca-flow k8s down
 ```
 
 ## Commands Reference
 
-Run `dap --help` to see all available commands.
+Run `arca-flow --help` to see all available commands. A short alias `af` is installed alongside for daily use — `af test`, `af check`, etc. are equivalent to `arca-flow test`, `arca-flow check`.
 
 ### Development
 
 | Command | Description |
 |---------|-------------|
-| `dap test [--scope core\|cli\|all]` | Run tests with pytest |
-| `dap lint [--fix] [--scope ...]` | Check code style and formatting with ruff |
-| `dap typecheck [--scope ...]` | Run type checking with mypy |
-| `dap check [--scope ...]` | Run all quality checks (ruff, mypy, pytest) |
+| `arca-flow test [--scope core\|cli\|all]` | Run tests with pytest |
+| `arca-flow lint [--fix] [--scope ...]` | Check code style and formatting with ruff |
+| `arca-flow typecheck [--scope ...]` | Run type checking with mypy |
+| `arca-flow check [--scope ...]` | Run all quality checks (ruff, mypy, pytest) |
 
 The `--scope` flag controls which code is checked:
 - `core` (default): `arca_flow`, `arca_flow_tests`
-- `cli`: `cli/dap_cli`, `cli/tests`
+- `cli`: `cli/arca_flow_cli`, `cli/tests`
 - `all`: both core and CLI
 
 ### Environment
 
 | Command | Description |
 |---------|-------------|
-| `dap welcome` | Show welcome banner and environment info |
-| `dap tools [--all]` | Show installed tool versions and paths |
-| `dap env` | Show environment paths and status |
-| `dap clean [--yes]` | Remove `.venv` and caches |
-| `dap reset [--yes]` | Clean and reinstall dependencies |
+| `arca-flow welcome` | Show welcome banner and environment info |
+| `arca-flow tools [--all]` | Show installed tool versions and paths |
+| `arca-flow env` | Show environment paths and status |
+| `arca-flow clean [--yes]` | Remove `.venv` and caches |
+| `arca-flow reset [--yes]` | Clean and reinstall dependencies |
 
-`dap tools` shows the Python toolchain by default. Pass `--all` to include nix, direnv, kubectl, and helm.
+`arca-flow tools` shows the Python toolchain by default. Pass `--all` to include nix, direnv, kubectl, and helm.
 
-`dap clean` and `dap reset` prompt for confirmation. Pass `--yes` / `-y` to skip (for CI/scripts).
+`arca-flow clean` and `arca-flow reset` prompt for confirmation. Pass `--yes` / `-y` to skip (for CI/scripts).
 
 ### Kubernetes
 
 | Command | Description |
 |---------|-------------|
-| `dap k8s up` | Build and deploy to local Kubernetes |
-| `dap k8s down [--yes]` | Tear down deployment |
-| `dap k8s restart` | Rebuild image and rollout restart |
-| `dap k8s status` | Show pods and services |
-| `dap k8s logs` | Stream user code pod logs |
-| `dap k8s shell` | Interactive shell in user code pod |
+| `arca-flow k8s up` | Build and deploy to local Kubernetes |
+| `arca-flow k8s down [--yes]` | Tear down deployment |
+| `arca-flow k8s restart` | Rebuild image and rollout restart |
+| `arca-flow k8s status` | Show pods and services |
+| `arca-flow k8s logs` | Stream user code pod logs |
+| `arca-flow k8s shell` | Interactive shell in user code pod |
 
 ### Hint Commands
 
@@ -247,9 +247,9 @@ These commands show how to use tools that are available directly in your shell:
 
 | Command | Description |
 |---------|-------------|
-| `dap uv` | Common uv commands (sync, lock, add, run) |
-| `dap dagster` | Common dagster/dg commands |
-| `dap direnv` | Common direnv commands (allow, reload, status) |
+| `arca-flow uv` | Common uv commands (sync, lock, add, run) |
+| `arca-flow dagster` | Common dagster/dg commands |
+| `arca-flow direnv` | Common direnv commands (allow, reload, status) |
 
 ### Global Flags
 
@@ -260,7 +260,7 @@ These commands show how to use tools that are available directly in your shell:
 
 ### CLI Development
 
-For working on the dap CLI itself (Python, Typer + Rich), see [cli/CONTRIBUTING.md](cli/CONTRIBUTING.md).
+For working on the arca-flow CLI itself (Python, Typer + Rich), see [cli/CONTRIBUTING.md](cli/CONTRIBUTING.md).
 
 ## Configuration
 
@@ -270,8 +270,8 @@ For working on the dap CLI itself (Python, Typer + Rich), see [cli/CONTRIBUTING.
 |----------|-------------|---------|
 | `DAGSTER_HOME` | Dagster instance directory | Project root (set by `.envrc`) |
 | `DAGSTER_TEST_DATA_PATH` | Directory containing METS XML files for the sensor to monitor | `arca_flow_tests/test_data` |
-| `DAP_THEME` | Override terminal background detection for colours (`light` or `dark`) | unset |
-| `DAP_QUIET` | Set to `1` to suppress Quick Start section in `dap welcome` | unset |
+| `ARCA_FLOW_THEME` | Override terminal background detection for colours (`light` or `dark`) | unset |
+| `ARCA_FLOW_QUIET` | Set to `1` to suppress Quick Start section in `arca-flow welcome` | unset |
 | `NO_COLOR` | Set to `1` to disable all colour output (also respected in CI) | unset |
 
 Copy `.env.example` to `.env` and modify as needed.
@@ -296,8 +296,8 @@ The Nix flake provides a single development shell activated via `direnv allow` o
 ## Project Structure
 
 ```
-cli/                         # dap CLI (Python) — see cli/CONTRIBUTING.md
-├── dap_cli/
+cli/                         # arca-flow CLI (Python) — see cli/CONTRIBUTING.md
+├── arca_flow_cli/
 │   ├── app.py               # Entry point — registers all commands
 │   ├── theme.py             # Rich console, ETH brand colors, symbols
 │   ├── commands/            # Command modules (dev, env, hints, k8s)

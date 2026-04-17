@@ -1,9 +1,9 @@
-# Contributing to the dap CLI
+# Contributing to the arca-flow CLI
 
 ## Architecture
 
 ```
-cli/dap_cli/
+cli/arca_flow_cli/
   app.py              Entry point — registers all commands on a single Typer app
   theme.py            Rich console, ETH Zurich brand colours, symbols
   commands/
@@ -56,9 +56,9 @@ app.command()(hints.direnv)
 
 5. **Verify:**
    ```bash
-   uv run ruff check cli/dap_cli/
+   uv run ruff check cli/arca_flow_cli/
    uv run pytest cli/tests/ -v
-   uv run dap my-command --help
+   uv run arca-flow my-command --help
    ```
 
 ## TUI conventions
@@ -68,7 +68,7 @@ All CLI output follows these rules. See [`.claude/skills/tui-design.md`](../.cla
 ### 1. Use the centralized console
 
 ```python
-from dap_cli.theme import console, OK, FAIL, ARROW
+from arca_flow_cli.theme import console, OK, FAIL, ARROW
 ```
 
 Never create a new `Console` instance. The project console writes to stderr, supports `NO_COLOR`, and uses the ETH brand theme.
@@ -78,7 +78,7 @@ Never create a new `Console` instance. The project console writes to stderr, sup
 ```python
 console.print("[title]Section Header[/]")
 console.print("[error]Something failed[/]")
-console.print("[hint]Run 'dap --help' for all commands[/]")
+console.print("[hint]Run 'arca-flow --help' for all commands[/]")
 ```
 
 Available roles: `success`, `error`, `warning`, `info`, `title`, `hint`, `command`.
@@ -136,7 +136,7 @@ Tests use `typer.testing.CliRunner` and mock subprocess calls at the import site
 ```python
 from unittest.mock import patch
 from typer.testing import CliRunner
-from dap_cli.app import app
+from arca_flow_cli.app import app
 
 runner = CliRunner()
 
@@ -144,16 +144,16 @@ def test_my_command_help():
     result = runner.invoke(app, ["my-command", "--help"])
     assert result.exit_code == 0
 
-@patch("dap_cli.commands.dev.run_passthrough", return_value=0)
+@patch("arca_flow_cli.commands.dev.run_passthrough", return_value=0)
 def test_my_command(mock_run):
     result = runner.invoke(app, ["my-command"])
     assert result.exit_code == 0
 ```
 
-**Important:** Patch at the import site (`dap_cli.commands.dev.run_passthrough`), not the definition site (`dap_cli.utils.run.run_passthrough`).
+**Important:** Patch at the import site (`arca_flow_cli.commands.dev.run_passthrough`), not the definition site (`arca_flow_cli.utils.run.run_passthrough`).
 
 ## ETH Zurich brand colours
 
 The CLI uses official ETH Zurich brand colours and their 80% shades for dark terminal readability. See `theme.py` for the full palette.
 
-Override detection with `DAP_THEME=light` or `DAP_THEME=dark`.
+Override detection with `ARCA_FLOW_THEME=light` or `ARCA_FLOW_THEME=dark`.

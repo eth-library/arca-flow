@@ -177,7 +177,7 @@ def welcome() -> None:
         console.print(f"  {'af check':<14} Run all quality checks (lint, typecheck, test)")
         console.print(f"  {'af tools':<14} Show installed tool versions")
         console.print()
-        console.print("  [hint]Run 'af --help' for all commands[/]")
+        console.print("  [hint]Run 'af --help' for all commands (af is an alias for arca-flow)[/]")
 
     console.print()
 
