@@ -13,7 +13,7 @@ COPY cli/pyproject.toml cli/pyproject.toml
 RUN uv sync --frozen --extra production --no-dev --no-install-project --no-editable
 
 # Copy application source
-COPY arca_flow/ arca_flow/
+COPY arca/ arca/
 
 # Install the project itself
 RUN uv sync --frozen --extra production --no-dev --no-editable
