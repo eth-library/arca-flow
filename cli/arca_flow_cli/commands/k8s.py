@@ -160,14 +160,14 @@ def up() -> None:
     console.print(f"  {OK} PVC applied")
 
     # Create test data ConfigMap if test data exists
-    if Path("arca_flow_tests/test_data").is_dir():
+    if Path("arca/flow/tests/test_data").is_dir():
         _, cm_yaml = run_capture(
             [
                 "kubectl",
                 "create",
                 "configmap",
                 "test-data-xml",
-                "--from-file=arca_flow_tests/test_data/",
+                "--from-file=arca/flow/tests/test_data/",
                 "-n",
                 NAMESPACE,
                 "--dry-run=client",

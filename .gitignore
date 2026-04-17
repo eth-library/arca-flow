@@ -27,7 +27,7 @@ cli/bin/
 __pycache__/
 
 # Python build directories
-/arca_flow.egg-info/
+/arca.egg-info/
 
 # Dagster
 .dagster/*

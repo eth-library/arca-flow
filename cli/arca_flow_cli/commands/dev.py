@@ -8,11 +8,11 @@ from arca_flow_cli.theme import ARROW, FAIL, OK, console
 from arca_flow_cli.utils.run import run_passthrough
 
 # Target directories per scope
-CORE_TARGETS = ["arca_flow", "arca_flow_tests"]
+CORE_TARGETS = ["arca"]
 CLI_TARGETS = ["cli/arca_flow_cli"]
 ALL_TARGETS = [*CORE_TARGETS, *CLI_TARGETS]
 
-CORE_TEST_TARGETS = ["arca_flow_tests"]
+CORE_TEST_TARGETS = ["arca/flow/tests"]
 CLI_TEST_TARGETS = ["cli/tests"]
 ALL_TEST_TARGETS = [*CORE_TEST_TARGETS, *CLI_TEST_TARGETS]
 
