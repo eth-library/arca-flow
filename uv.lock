@@ -91,7 +91,7 @@ requires-dist = [
     { name = "dagster-dg-cli", specifier = ">=0.1.0" },
     { name = "dagster-k8s", marker = "extra == 'production'", specifier = ">=0.26.14" },
     { name = "dagster-postgres", marker = "extra == 'production'", specifier = ">=0.26.14" },
-    { name = "dagster-webserver", specifier = ">=1.13.14,<2.0.0" },
+    { name = "dagster-webserver", specifier = ">=1.13.15,<2.0.0" },
     { name = "data-archive-models", specifier = ">=0.1.0a2.dev0", index = "https://test.pypi.org/simple" },
     { name = "pydantic", specifier = ">=2.13.4,<3.0.0" },
 ]
