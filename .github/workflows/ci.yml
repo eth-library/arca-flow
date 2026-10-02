@@ -43,8 +43,6 @@ permissions:
 # Environment variables used across jobs
 env:
   IMAGE_NAME: ghcr.io/${{ github.repository }}
-  TAG_LATEST: latest
-  TAG_SHA: ${{ github.sha }}
 
 jobs:
   # Job to set up shell environment and run tests
@@ -95,6 +93,4 @@ jobs:
           context: .
           platforms: linux/amd64,linux/arm64
           push: true
-          tags: |
-            ${{ env.IMAGE_NAME }}:${{ env.TAG_LATEST }}
-            ${{ env.IMAGE_NAME }}:${{ env.TAG_SHA }}
+          tags: ${{ env.IMAGE_NAME }}:${{ github.sha }}
