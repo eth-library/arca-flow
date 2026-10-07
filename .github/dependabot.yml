@@ -1,6 +1,12 @@
 version: 2
+registries:
+  testpypi:
+    type: python-index
+    url: https://test.pypi.org/simple
 updates:
   - package-ecosystem: "uv"
+    registries:
+      - testpypi
     allow:
       - dependency-type: "direct"
     directory: "/"
