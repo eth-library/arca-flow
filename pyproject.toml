@@ -17,7 +17,7 @@ dependencies = [
   "dagster-webserver>=1.13.15,<2.0.0",
   "dagster-dg-cli>=0.1.0",
   "pydantic>=2.13.4,<3.0.0",
-  "data-archive-models>=0.1.0a2.dev",
+  "arca-models>=0.1.2.dev189",
 ]
 
 [project.urls]
@@ -56,14 +56,6 @@ exclude = ["arca/flow/tests/**"]
 [tool.hatch.build.targets.wheel]
 include = ["arca/flow/**"]
 exclude = ["arca/flow/tests/**"]
-
-[tool.uv.sources]
-data-archive-models = { index = "testpypi" }
-
-[[tool.uv.index]]
-name = "testpypi"
-url = "https://test.pypi.org/simple"
-explicit = true
 
 [tool.ruff]
 target-version = "py313"

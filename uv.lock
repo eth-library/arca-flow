@@ -64,10 +64,10 @@ name = "arca-flow"
 version = "0.1.0"
 source = { editable = "." }
 dependencies = [
+    { name = "arca-models" },
     { name = "dagster" },
     { name = "dagster-dg-cli" },
     { name = "dagster-webserver" },
-    { name = "data-archive-models" },
     { name = "pydantic" },
 ]
 
@@ -87,12 +87,12 @@ dev = [
 
 [package.metadata]
 requires-dist = [
+    { name = "arca-models", specifier = ">=0.1.2.dev189" },
     { name = "dagster", specifier = ">=1.13.18,<2.0.0" },
     { name = "dagster-dg-cli", specifier = ">=0.1.0" },
     { name = "dagster-k8s", marker = "extra == 'production'", specifier = ">=0.26.14" },
     { name = "dagster-postgres", marker = "extra == 'production'", specifier = ">=0.26.14" },
     { name = "dagster-webserver", specifier = ">=1.13.15,<2.0.0" },
-    { name = "data-archive-models", specifier = ">=0.1.0a2.dev0", index = "https://test.pypi.org/simple" },
     { name = "pydantic", specifier = ">=2.13.4,<3.0.0" },
 ]
 provides-extras = ["production"]
@@ -103,6 +103,18 @@ dev = [
     { name = "pre-commit", specifier = ">=4.6.2" },
     { name = "pytest", specifier = ">=9.1.1" },
     { name = "ruff", specifier = ">=0.16.3" },
+]
+
+[[package]]
+name = "arca-models"
+version = "0.1.2.dev189"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "pydantic" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/57/22/776c89d1beb59d5e85a661f952aedfe83a52614142054f2ca25371c79832/arca_models-0.1.2.dev189.tar.gz", hash = "sha256:f6fee56f53d464392d5d05e0a4e7ebb177a8ae3171d1e15dd944a6b1a99067f0", size = 5887, upload-time = "2026-10-07T09:01:33.157Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/d7/f1/7d31f50252b22be086c0ff36246ec44f03e1db153e0b8a700ffc0e7cc96e/arca_models-0.1.2.dev189-py3-none-any.whl", hash = "sha256:696ed2d4436075e0165ed07122b12f23d199075d13177d00dbf792518a2e84f1", size = 10946, upload-time = "2026-10-07T09:01:31.884Z" },
 ]
 
 [[package]]
@@ -539,18 +551,6 @@ dependencies = [
 sdist = { url = "https://files.pythonhosted.org/packages/81/89/f65ea85a33141be3a2b3bbbaee1b4a3e87e58b83455e5c5bf8657d68bd98/dagster_webserver-1.13.24.tar.gz", hash = "sha256:3c9628a420654f2725440843b37f1d4a16ec83a3eb5ccd18de1ebb99fa39fe28", size = 12242126, upload-time = "2026-09-21T23:22:35.283Z" }
 wheels = [
     { url = "https://files.pythonhosted.org/packages/d7/4c/406fad522b015c4d9e75891de2d67a54704e0ca423c3e40fa92f63a2a330/dagster_webserver-1.13.24-py3-none-any.whl", hash = "sha256:e1dbdf0bb4c59f5b7982e8e07d38adb3ade3e53522ad0c65fb8a714143079796", size = 12393898, upload-time = "2026-09-21T23:22:32.788Z" },
-]
-
-[[package]]
-name = "data-archive-models"
-version = "0.1.2.dev50"
-source = { registry = "https://test.pypi.org/simple" }
-dependencies = [
-    { name = "pydantic" },
-]
-sdist = { url = "https://test-files.pythonhosted.org/packages/6f/47/0a78a8378d6d6e166fe3fec5e512a4a7463f2ca2bbbffef22465e7d9b28a/data_archive_models-0.1.2.dev50.tar.gz", hash = "sha256:b94311872e73c07f1f5a7f31c8a0c0734b3a360fe0459cd05e58da90084d8bb2", size = 5911, upload-time = "2026-02-24T14:40:04.968Z" }
-wheels = [
-    { url = "https://test-files.pythonhosted.org/packages/16/49/40a8f832659ca50c59feb985e99b0ea75b29f40a89554ede04814fb5e5d3/data_archive_models-0.1.2.dev50-py3-none-any.whl", hash = "sha256:20d1b68202e9475ed6c953c687901c7043c611174cee9e71c54b84ea9ad66592", size = 10873, upload-time = "2026-02-24T14:40:04.127Z" },
 ]
 
 [[package]]
